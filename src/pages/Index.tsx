@@ -16,32 +16,7 @@ interface GreetingMedia {
 }
 
 const Index = () => {
-  const [media, setMedia] = useState<GreetingMedia[]>([
-    {
-      id: "1",
-      type: "image",
-      url: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=800",
-      title: "С Днём Рождения!",
-      author: "Анна",
-      date: "2024-05-29",
-    },
-    {
-      id: "2",
-      type: "image",
-      url: "https://images.unsplash.com/photo-1464207687429-7505649dae38?w=800",
-      title: "Поздравляю с праздником!",
-      author: "Михаил",
-      date: "2024-05-28",
-    },
-    {
-      id: "3",
-      type: "image",
-      url: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800",
-      title: "С Новым Годом!",
-      author: "Елена",
-      date: "2024-05-27",
-    },
-  ]);
+  const [media, setMedia] = useState<GreetingMedia[]>([]);
 
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
