@@ -71,7 +71,7 @@ const Index = () => {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-purple-900">
-                🎉 Поздравления
+                Для самой дорогой❤️
               </h1>
               <p className="text-gray-600 mt-1">
                 Делитесь радостными моментами
