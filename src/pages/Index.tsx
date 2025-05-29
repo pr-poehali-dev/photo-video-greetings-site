@@ -46,6 +46,22 @@ const Index = () => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+
+  const ADMIN_PASSWORD = "поехали2024"; // Можете изменить на свой пароль
+
+  const handlePasswordSubmit = () => {
+    if (passwordInput === ADMIN_PASSWORD) {
+      setIsAdmin(true);
+      setShowPasswordDialog(false);
+      setPasswordInput("");
+    } else {
+      alert("Неверный пароль");
+      setPasswordInput("");
+    }
+  };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -137,7 +153,100 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Gallery */}
+      {/* Кнопка для администратора */}
+      {!isAdmin ? (
+        <div className="text-center mb-8">
+          <Button
+            onClick={() => setShowPasswordDialog(true)}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+          >
+            <Icon name="Plus" className="mr-2" size={16} />
+            Добавить поздравление
+          </Button>
+        </div>
+      ) : (
+        <Card className="mb-8 bg-gradient-to-r from-purple-50 to-pink-50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Icon name="Upload" size={20} />
+              Добавить новое поздравление
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Input
+              placeholder="Название поздравления"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+            />
+            <Input
+              placeholder="Автор"
+              value={newAuthor}
+              onChange={(e) => setNewAuthor(e.target.value)}
+            />
+            <Input
+              type="file"
+              accept="image/*,video/*"
+              onChange={handleFileUpload}
+            />
+            <div className="flex gap-2">
+              <Button onClick={addNewMedia} className="flex-1">
+                <Icon name="Plus" className="mr-2" size={16} />
+                Добавить
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => setIsAdmin(false)}
+                className="text-red-600 hover:text-red-700"
+              >
+                <Icon name="LogOut" className="mr-2" size={16} />
+                Выйти
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Диалог ввода пароля */}
+      <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+        <DialogContent className="sm:max-w-md">
+          <div className="space-y-4">
+            <div className="text-center">
+              <Icon
+                name="Lock"
+                size={48}
+                className="mx-auto mb-4 text-purple-600"
+              />
+              <h3 className="text-lg font-semibold">Вход для администратора</h3>
+              <p className="text-sm text-gray-600">
+                Введите пароль для добавления поздравлений
+              </p>
+            </div>
+            <Input
+              type="password"
+              placeholder="Пароль"
+              value={passwordInput}
+              onChange={(e) => setPasswordInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handlePasswordSubmit()}
+            />
+            <div className="flex gap-2">
+              <Button onClick={handlePasswordSubmit} className="flex-1">
+                Войти
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setShowPasswordDialog(false);
+                  setPasswordInput("");
+                }}
+              >
+                Отмена
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Сетка медиа */}
       <main className="max-w-6xl mx-auto px-4 py-8">
         {media.length === 0 ? (
           <div className="text-center py-12">
